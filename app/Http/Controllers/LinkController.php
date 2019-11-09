@@ -3,34 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLink;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Link;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use App\Code;
 
+/**
+ * Main Class
+ *
+ * Class LinkController
+ *
+ * @package App\Http\Controllers
+ */
 class LinkController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
+    /**
+     * Save short link
+     *
+     * @param StoreLink $request Request params
+     *
+     * @return string
+     */
     public function store(StoreLink $request)
     {
         $validated = $request->validated();
 
-        $code = new Code();
-        $result_code = $code->generate();
+        $resultCode = $this->_getCode();
 
         Link::updateOrCreate(
             ['link' => $validated['link']],
-            ['code' => $result_code]
+            ['code' => $resultCode]
         );
 
-        echo 'http://localhost/' . $result_code;
+        return 'http://localhost/' . $resultCode;
     }
 
+    /**
+     * Redirect short link
+     *
+     * @param $code Short link code
+     *
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function shortLink($code)
     {
         $link = Link::where('code', $code)->first();
@@ -39,6 +54,25 @@ class LinkController extends Controller
             return redirect($link->link);
         } catch (\Exception $exception) {
             abort(404);
+        }
+    }
+
+    /**
+     * Get short code
+     *
+     * @return string
+     */
+    private function _getCode(): string
+    {
+        $code = new Code();
+        $resultCode = $code->generate();
+
+        $check = Link::where('code', $resultCode)->count();
+
+        if ($check > 0) {
+            $this->_getCode();
+        } else {
+            return $resultCode;
         }
     }
 }
