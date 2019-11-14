@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.2-apache
 COPY / /var/www/html/
 COPY 000-default.conf /etc/apache2/sites-available
 RUN chmod a+w -R /var/www/html/storage
