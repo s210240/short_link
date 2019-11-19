@@ -26,7 +26,7 @@ class LinkController extends Controller
      * @return string
      */
     public function store(StoreLink $request)
-    {
+    {/**/
         $validated = $request->validated();
 
         $resultCode = $this->_getCode();
@@ -36,7 +36,9 @@ class LinkController extends Controller
             ['code' => $resultCode]
         );
 
-        return 'http://localhost/' . $resultCode;
+        $url = config('app.url');
+
+        return $url . $resultCode;
     }
 
     /**
