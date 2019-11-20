@@ -58,18 +58,13 @@
         }
     </style>
 </head>
-<body class="text-center">
-<form class="form-signin">
-    <input type="hidden" name="token" id="token" value="{{ csrf_token() }}">
-    <h1 class="h3 mb-3 font-weight-normal">Please paste Link</h1>
-    <label for="inputLink" class="sr-only">Link</label>
-    <input type="text" id="inputLink" class="form-control" placeholder="Link" required autofocus>
-    <p></p>
-    <label for="inputShortLink" class="sr-only">Short Link</label>
-    <input type="text" id="inputShortLink" class="form-control" placeholder="Short Link">
-    <p></p>
-    <div class="btn btn-lg btn-primary btn-block" onclick="sendLink()">Generate</div>
-</form>
+<body>
+
+<div id="app">
+    <link-component :token-data="'{!! csrf_token() !!}'"></link-component>
+</div>
+
+<script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 </html>

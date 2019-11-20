@@ -26,7 +26,7 @@ class LinkController extends Controller
      * @return string
      */
     public function store(StoreLink $request)
-    {/**/
+    {
         $validated = $request->validated();
 
         $resultCode = $this->_getCode();

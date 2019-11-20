@@ -1854,32 +1854,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "LinkComponent",
   data: function data() {
     return {
       errors: [],
       inputLink: "",
-      inputShortLink: ""
+      shortLink: " "
     };
   },
   props: ['tokenData'],
   methods: {
     sendLink: function sendLink() {
-      var self = this;
-      var token = self.tokenData;
+      var app = this;
+      var token = app.tokenData;
       var link = this.inputLink;
-      var short_Link = this.inputShortLink;
-      console.log(link);
       axios.post('/save_link', {
         link: link,
         _token: token
       }).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
-        console.log(error); //const jsonResponse = JSON.parse(error);
-        //short_Link =  jsonResponse.errors.link[0];
-        // console.log(jsonResponse);
+        if (error.response.status === 422) {
+          app.shortLink = error.response.data.errors.link[0];
+        }
+      })["finally"](function () {// always executed
       });
     }
   }
@@ -37193,7 +37194,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container justify-content-center" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("form", { staticClass: "form-signin" }, [
         _c("h1", { staticClass: "h3 mb-3 font-weight-normal" }, [
@@ -37229,30 +37230,15 @@ var render = function() {
         _vm._v(" "),
         _c("p"),
         _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.inputShortLink,
-              expression: "inputShortLink"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            id: "inputShortLink",
-            placeholder: "Short Link"
-          },
-          domProps: { value: _vm.inputShortLink },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.inputShortLink = $event.target.value
-            }
-          }
+        _c("p", { staticClass: "justify-content-center" }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.shortLink) + "\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "justify-content-center",
+          attrs: { src: "", width: "200px", height: "200px" }
         }),
         _vm._v(" "),
         _c("p"),
