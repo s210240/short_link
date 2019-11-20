@@ -49,7 +49,7 @@ class StoreLink extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'errors' => $errors,
-            ], 200)
+            ], 422)
         );
     }
 }
