@@ -7,7 +7,7 @@
     <title>Link Generator</title>
 
     <script src="{{ asset('js/main.js') }}" defer></script>
-    <script src="{{ asset('js/jquery-3.4.1.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery-3.6.4.min.js') }}" defer></script>
 
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <style>
